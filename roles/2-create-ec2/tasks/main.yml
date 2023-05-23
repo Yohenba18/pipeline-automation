@@ -30,3 +30,6 @@
     regexp: 'example.com'
     replace: '{{public_ip_address}}'
 
+- name: Print IP address
+  debug:
+    var: "{{public_ip_address}}"

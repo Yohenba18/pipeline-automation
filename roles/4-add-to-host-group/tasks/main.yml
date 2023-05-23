@@ -1,7 +1,0 @@
----
-# tasks file for add-to-host-group
-- name: Add new instance to host group
-  add_host:
-    hostname: "{{public_ip_address}}"
-    groupname: Ansible-ec2
-  loop: "{{ ec2.instances }}"  

@@ -10,43 +10,34 @@
     - role: "roles/2-create-ec2"
       connection: local
 
-    # - role: "roles/3-print_ip_address"
-    #   delegate_to: "{{ public_ip_address }}"
-    #   delegate_facts: true
-
-
-    # - role: "roles/4-add-to-host-group"
+    # - role: "roles/3-add-to-host-group"
     #   delegate_to: "{{ public_ip_address }}"
     #   delegate_facts: true
     #   become: true
     
-    # - role: "roles/5-ssh-up"
-    #   delegate_to: "{{ public_ip_address }}"
-    #   delegate_facts: true
-      
 
-    # - role: "roles/6-download-jenkins"
+    # - role: "roles/4-download-jenkins"
     #   delegate_to: "{{ public_ip_address }}"
     #   delegate_facts: true
     #   become: true
     
-    # - role: "roles/7-install-nginx-config"
+    # - role: "roles/5-install-nginx-config"
     #   delegate_to: "{{ public_ip_address }}"
     #   delegate_facts: true
     #   become: true
 
 
-    # - role: "roles/8-jenkins-config"
+    # - role: "roles/6-jenkins-config"
     #   delegate_to: "{{ public_ip_address }}"
     #   delegate_facts: true
     #   become: true
 
-    - role: "roles/9-configure-ec2-plugin"
+    - role: "roles/7-configure-ec2-plugin"
       delegate_to: "{{ public_ip_address }}"
       delegate_facts: true
       become: true
 
-    # - role: "roles/10-pipeline"
+    # - role: "roles/8-pipeline"
     #   delegate_to: "{{ public_ip_address }}"
     #   delegate_facts: true
     #   become: true
