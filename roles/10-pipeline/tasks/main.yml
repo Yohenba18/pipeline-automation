@@ -1,0 +1,38 @@
+---
+# tasks file for pipeline
+
+- name: To run pipeline test
+  become: yes
+  vars:
+    pipeline_job_name: my-pipeline-job
+    pipeline_job_description: "My pipeline job"
+    pipeline_script: |
+      pipeline {
+        agent ec2
+        stages {
+          stage('Build') {
+            steps {
+              sh 'echo "Building..."'
+            }
+          }
+          stage('Test') {
+            steps {
+              sh 'echo "Testing..."'
+            }
+          }
+          stage('Deploy') {
+            steps {
+              sh 'echo "Deploying..."'
+            }
+          }
+        }
+      }
+  jenkins_job:
+    name: "{{ pipeline_job_name }}"
+    config:
+      description: "{{ pipeline_job_description }}"
+      scm: null
+      scriptPath: Jenkinsfile
+      script: "{{ pipeline_script }}"
+      concurrentBuild: false
+    state: present

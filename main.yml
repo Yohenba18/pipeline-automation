@@ -1,0 +1,52 @@
+---
+- name: Configure master
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - role: "roles/1-create-security-group"
+      connection: local
+  
+    - role: "roles/2-create-ec2"
+      connection: local
+
+    # - role: "roles/3-print_ip_address"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+
+
+    # - role: "roles/4-add-to-host-group"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true
+    
+    # - role: "roles/5-ssh-up"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+      
+
+    # - role: "roles/6-download-jenkins"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true
+    
+    # - role: "roles/7-install-nginx-config"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true
+
+
+    # - role: "roles/8-jenkins-config"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true
+
+    - role: "roles/9-configure-ec2-plugin"
+      delegate_to: "{{ public_ip_address }}"
+      delegate_facts: true
+      become: true
+
+    # - role: "roles/10-pipeline"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true

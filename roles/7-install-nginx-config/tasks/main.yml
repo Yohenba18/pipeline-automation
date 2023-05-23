@@ -1,0 +1,27 @@
+---
+# tasks file for 7-install-nginx-config
+
+- name: ensure nginx is at the latest version
+  apt: name=nginx state=latest
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
+- name: remove default file
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy nano from localhost to EC2 instance
+  copy:
+    src: /home/yohenba.kshetrimayum/ansible/node
+    dest: /etc/nginx/sites-enabled/
+  become: yes
+  
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+  become: yes

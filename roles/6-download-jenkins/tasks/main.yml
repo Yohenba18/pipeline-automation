@@ -1,0 +1,45 @@
+---
+# - name: Install OpenJDK
+#   become: yes
+#   apt:
+#     name: openjdk-11-jdk
+#     state: present
+
+- name: Update apt cache 
+  apt:
+    update_cache: yes
+
+- name: Install OpenJDK 11 
+  vars:
+    java_version : 11
+  apt:
+    name: "openjdk-{{ java_version }}-jdk"
+    state: present
+
+- name: ensure the jenkins apt repository key is installed
+  apt_key: url="{{jenkins_download_url}}" state=present
+  become: true
+
+- name: ensure the repository is configured
+  apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+  become: true
+
+- name: ensure jenkins is installed
+  apt: name=jenkins update_cache=yes
+  become: true
+
+- name: ensure jenkins is running
+  service: name=jenkins state=started
+
+
+- name: Install Python 3 pip package
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install botocore and boto3
+  pip:
+    name:
+      - botocore
+      - boto3
+

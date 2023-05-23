@@ -1,0 +1,32 @@
+---
+# tasks file for configure-master
+
+- name: Task to launch ec2 instance # 2 Launch the new EC2 Instance
+  ec2_instance:
+    security_group: "{{ security_group }}" 
+    instance_type: "{{ instance_type}}"
+    image_id: "{{ image }}" 
+    wait: true 
+    region: "{{ region }}" 
+    tags:
+      Name: "{{ instance_name }}"
+    key_name: "{{ keypair }}"  
+    state: started
+    instance_role: "{{ iam_instance_profile }}"
+  register: ec2
+
+- debug:
+    var: ec2
+
+- set_fact:
+    public_ip_address: "{{ec2.instances[0].public_ip_address}}"
+    private_ip_address: "{{ec2.instances[0].private_ip_address}}"
+    # instance_id: "{{ec2_instance.instance_ids}}"
+
+
+- name: Configure node file with IP address
+  ansible.builtin.replace:
+    path: /home/yohenba.kshetrimayum/ansible/node
+    regexp: 'example.com'
+    replace: '{{public_ip_address}}'
+

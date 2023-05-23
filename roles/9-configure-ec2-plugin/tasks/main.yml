@@ -1,0 +1,33 @@
+---
+# tasks file for 9-configure-ec2-plugin
+
+- name: read admin pwd
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: adminpwd
+
+# - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+#   community.crypto.openssh_keypair:
+#     path: /home/ubuntu/.ssh/id_rsa
+
+# - name: Import EC2 SSH key-pair
+#   become: true
+#   shell: cat /home/ubuntu/.ssh/id_rsa
+#   register: keypair
+
+- name: Create SSH credentails
+  become: true
+  jenkins_script:
+    script: "{{ lookup('file', 'templates/credential.groovy') }}"
+    user: admin
+    password: "{{adminpwd.stdout}}"
+
+- name: Configure ec2 plugin
+  jenkins_script:
+    script: "{{ lookup('file', 'templates/jenkins-config.groovy') }}"
+    user: admin
+    password: "{{adminpwd.stdout}}"
+
+# - name: Restart Jenkins service
+#   service:
+#     name: jenkins
+#     state: restarted

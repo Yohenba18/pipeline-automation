@@ -1,0 +1,12 @@
+---
+# vars file for configure-master
+keypair: Ansible-test-key
+instance_type: t2.micro
+image: ami-0c5f4de412b0b6c4a
+wait: yes
+group: webserver
+count: 1
+region: us-east-1
+security_group: launch-wizard-128
+instance_name: jenkins-master-using-ansible
+iam_instance_profile: arn:aws:iam::130759691668:instance-profile/jenkins_intern_project_aksh
