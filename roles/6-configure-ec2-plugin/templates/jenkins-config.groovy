@@ -30,7 +30,9 @@ def slaveTemplateUsEast1Parameters = [
   ebsOptimized:                  false,
   iamInstanceProfile:            '',
   idleTerminationMinutes:        '10',
-  initScript:                    'sudo apt update sudo apt-get install openjdk-11-jdk -y',
+  initScript:                    '''sudo apt update
+  sudo apt install openjdk-11-jdk -y
+  sudo apt install maven -y''',
   instanceCapStr:                '3',
   javaPath:                      'java',
   jvmopts:                       '',

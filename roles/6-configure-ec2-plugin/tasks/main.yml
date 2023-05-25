@@ -26,8 +26,3 @@
     script: "{{ lookup('file', 'templates/jenkins-config.groovy') }}"
     user: admin
     password: "{{adminpwd.stdout}}"
-
-# - name: Restart Jenkins service
-#   service:
-#     name: jenkins
-#     state: restarted

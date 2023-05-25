@@ -129,6 +129,8 @@
     - workflow-step-api
     - workflow-support
     - ws-cleanup
+    - maven-plugin
+    - pipeline-model-definition
   notify: restart jenkins
   tags: ['skip_ansible_lint']
   register: plugin_result
@@ -142,5 +144,9 @@
     url_password: "{{ adminpwd.stdout }}"
     state: latest
   with_items:  
-    - maven-plugin
+    - pipeline-model-definition
 
+- name: Restart Jenkins service
+  service:
+    name: jenkins
+    state: restarted

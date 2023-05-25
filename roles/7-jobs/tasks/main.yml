@@ -8,51 +8,17 @@
   pip:
     name: python-jenkins
     state: present
-
-
-# - name: To run pipeline test
-#   become: yes
-#   vars:
-#     pipeline_job_name: my-pipeline-job
-#     pipeline_job_description: "My pipeline job"
-#     pipeline_script: |
-#       pipeline {
-#         agent ec2
-#         stages {
-#           stage('Build') {
-#             steps {
-#               sh 'echo "Building..."'
-#             }
-#           }
-#           stage('Test') {
-#             steps {
-#               sh 'echo "Testing..."'
-#             }
-#           }
-#           stage('Deploy') {
-#             steps {
-#               sh 'echo "Deploying..."'
-#             }
-#           }
-#         }
-#       }
-#   jenkins_job:
-#     name: "{{ pipeline_job_name }}"
-#     password: "{{ adminpwd.stdout }}"
-#     url: "{{public_ip_address}}"
-#     user: admin
-#     config:
-#       description: "{{ pipeline_job_description }}"
-#       scriptPath: Jenkinsfile
-#       script: "{{ pipeline_script }}"
-#       concurrentBuild: false
-#     state: present
-
-
-- name: Create a jenkins job using basic authentication
-  jenkins_job:
-    config: "{{ lookup('file', 'templates/test.xml') }}"
-    name: test
-    password: "{{ adminpwd.stdout }}"
-    url: "{{public_ip_address}}"
+ 
+- name: Create SSH credentails
+  become: true
+  jenkins_script:
+    script: "{{ lookup('file', 'templates/credential.groovy') }}"
     user: admin
+    password: "{{adminpwd.stdout}}" 
+
+- name: Create Jenkins pipeline job
+  jenkins_script:
+    user: admin
+    password: "{{ adminpwd.stdout }}"
+    url: "http://{{public_ip_address}}"
+    script: "{{ lookup('file', 'templates/test2.groovy') }}"
