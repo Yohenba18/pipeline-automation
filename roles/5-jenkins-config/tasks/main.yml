@@ -137,14 +137,14 @@
   until: plugin_result is success
 
 
-- name: Install plugin
-  jenkins_plugin:
-    name: "{{ item }}"
-    url_username: admin
-    url_password: "{{ adminpwd.stdout }}"
-    state: latest
-  with_items:  
-    - pipeline-model-definition
+# - name: Install plugin
+#   jenkins_plugin:
+#     name: "{{ item }}"
+#     url_username: admin
+#     url_password: "{{ adminpwd.stdout }}"
+#     state: latest
+#   with_items:  
+#     - pipeline-model-definition
 
 - name: Restart Jenkins service
   service:
