@@ -5,6 +5,9 @@ jenkins_user: "admin"
 jenkins_pass: "admin"
 admin_user_pass: "admin"
 
+administrator_pass: "7b305dada4d6432093aee1028ef2721e"
+
+
 jenkins_package_state: present
 
 jenkins_prefer_lts: false

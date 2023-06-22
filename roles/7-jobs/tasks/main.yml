@@ -1,8 +1,9 @@
 ---
 
-- name: read admin pwd
-  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
-  register: adminpwd
+# UNCOMMENT THIS
+# - name: read admin pwd
+#   shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+#   register: adminpwd
 
 - name: Install python-jenkins library
   pip:
@@ -14,11 +15,12 @@
   jenkins_script:
     script: "{{ lookup('file', 'templates/credential.groovy') }}"
     user: admin
-    password: "{{adminpwd.stdout}}" 
-
+    password: "{{ administrator_pass }}"
+# "{{adminpwd.stdout}}" 
 - name: Create Jenkins pipeline job
   jenkins_script:
     user: admin
-    password: "{{ adminpwd.stdout }}"
+    password: "{{ administrator_pass }}"
+    # "{{ adminpwd.stdout }}"
     url: "http://{{public_ip_address}}"
     script: "{{ lookup('file', 'templates/test2.groovy') }}"

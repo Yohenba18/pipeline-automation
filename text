@@ -1,0 +1,24 @@
+version: "3"
+services:
+
+  jenkins:
+    image: jenkins/jenkins:lts 
+    privileged: true
+    hostname: jenkins
+    container_name: jenkins
+
+    volumes:  
+      - $HOME/jenkins-data:/var/jenkins_home
+
+    ports:
+      - "8080:8080"
+      
+    depends_on:
+      - docker
+ 
+  docker:
+    image: docker:stable-dind
+    privileged: true
+
+volumes:
+  jenkins_home:

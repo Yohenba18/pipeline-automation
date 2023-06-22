@@ -1,9 +1,10 @@
 ---
 # tasks file for 9-configure-ec2-plugin
 
-- name: read admin pwd
-  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
-  register: adminpwd
+# UNCOMMENT THIS
+# - name: read admin pwd
+#   shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+#   register: adminpwd
 
 # - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
 #   community.crypto.openssh_keypair:
@@ -19,10 +20,11 @@
   jenkins_script:
     script: "{{ lookup('file', 'templates/credential.groovy') }}"
     user: admin
-    password: "{{adminpwd.stdout}}"
-
+    password: "{{ administrator_pass }}"
+# "{{adminpwd.stdout}}"
 - name: Configure ec2 plugin
   jenkins_script:
     script: "{{ lookup('file', 'templates/jenkins-config.groovy') }}"
     user: admin
-    password: "{{adminpwd.stdout}}"
+    password: "{{ administrator_pass }}"
+# "{{adminpwd.stdout}}"

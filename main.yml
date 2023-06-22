@@ -5,35 +5,36 @@
 
   roles:
   
-    - role: "roles/1-create-ec2"
-      connection: local
+    # - role: "roles/1-create-ec2"
+    #   connection: local
 
-    - role: "roles/2-add-to-host-group"
-      delegate_to: "{{ public_ip_address }}"
-      delegate_facts: true
-      become: true
+    # - role: "roles/2-add-to-host-group"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true
 
-    - role: "roles/3-download-jenkins"
-      delegate_to: "{{ public_ip_address }}"
-      delegate_facts: true
-      become: true
+    # - role: "roles/3-download-jenkins"
+    #   connection: local
+    #   # delegate_to: "{{ public_ip_address }}"
+    #   # delegate_facts: true
+    #   become: true
     
-    - role: "roles/4-install-nginx-config"
-      delegate_to: "{{ public_ip_address }}"
-      delegate_facts: true
-      become: true
+    # - role: "roles/4-install-nginx-config"
+    #   delegate_to: "{{ public_ip_address }}"
+    #   delegate_facts: true
+    #   become: true
 
     - role: "roles/5-jenkins-config"
-      delegate_to: "{{ public_ip_address }}"
-      delegate_facts: true
+      connection: local
+      # delegate_facts: true
       become: true
 
-    - role: "roles/6-configure-ec2-plugin"
-      delegate_to: "{{ public_ip_address }}"
-      delegate_facts: true
-      become: true
+    # - role: "roles/6-configure-ec2-plugin"
+    #   delegate_to: "http://localhost:8080/"
+    #   delegate_facts: true
+    #   become: true
 
     - role: "roles/7-jobs"
-      delegate_to: "{{ public_ip_address }}"
-      delegate_facts: true
-      become: true
+      connection: local
+      # delegate_facts: true
+      # become: true

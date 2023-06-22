@@ -9,12 +9,12 @@
   apt:
     update_cache: yes
 
-- name: Install OpenJDK 11 
-  vars:
-    java_version : 11
-  apt:
-    name: "openjdk-{{ java_version }}-jdk"
-    state: present
+# - name: Install OpenJDK 11 
+#   vars:
+#     java_version : 11
+#   apt:
+#     name: "openjdk-{{ java_version }}-jdk"
+#     state: present
 
 - name: ensure the jenkins apt repository key is installed
   apt_key: url="{{jenkins_download_url}}" state=present
@@ -30,7 +30,6 @@
 
 - name: ensure jenkins is running
   service: name=jenkins state=started
-
 
 - name: Install Python 3 pip package
   apt:

@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven'
+    }
+
+    stages{
+        stage('Initialize'){
+            steps{
+                script{
+                    def dockerHome = tool 'Docker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+            }
+        }
+        stage('Build Maven'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'yohenba', url: 'git@github.com:Yohenba18/devops-automation.git']])
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build docker'){
+            steps{
+                script{
+                    sh 'docker build -t yohenba/user-service .'
+                }
+            }
+        }
+        stage('Push image to Hub'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
+                        // some block
+                        sh 'docker login -u yohenba -p ${dockerhubpwd}'
+                    }
+                    sh 'docker push yohenba/user-service'
+                }
+            }
+        }
+        stage('Start Minikube') {
+            steps {
+                sh 'minikube start --driver='
+                sh 'minikube status'
+            }
+        }
+        stage('SSH into Minikube') {
+            steps {
+                    script {
+                        def sshCommand = 'minikube ssh'
+                        def commandOutput = sshCommand.execute().text
+                        
+                        // Use the 'commandOutput' variable to perform further actions with the SSH connection
+                        // For example, you can execute additional commands or run scripts inside the Minikube VM
+                        echo commandOutput
+                    }
+            }
+        }
+        stage ('Deploy') {
+            steps {
+                sh 'docker version'
+                sh 'minikube start --driver=docker'
+                sh 'minikube ssh -v 7'
+                sh 'minikube ssh -v 7 docker pull yohenba/user-service'
+                sh 'minikube ssh -v 7 sudo docker ps -q --filter ancestor=yohenba/user-service | xargs -r docker stop'
+                sh 'minikube ssh -v 7 sudo docker run -d -p 8080:8080 yohenba/user-service'
+                sh 'minikube ssh -v 7 curl http://localhost:8080'
+            }
+        }
+    }
+}
+
+//  stage ('Deploy') {
+//             steps {
+//                 sh 'chmod 400 Ansible-test-key.pem'
+//                 sh 'scp -v -i "Ansible-test-key.pem" deploy.sh ubuntu@ec2-3-85-190-50.compute-1.amazonaws.com:~/'
+//                 sh 'ssh -i "Ansible-test-key.pem" ubuntu@ec2-3-85-190-50.compute-1.amazonaws.com "chmod +x deploy.sh"'
+//                 sh 'ssh -i "Ansible-test-key.pem" ubuntu@ec2-3-85-190-50.compute-1.amazonaws.com ./deploy.sh'
+//             }
+//         }

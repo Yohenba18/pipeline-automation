@@ -12,35 +12,9 @@ import org.jenkinsci.plugins.workflow.job.WorkflowRun
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 import org.jenkinsci.plugins.workflow.job.WorkflowRun
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition
-import hudson.plugins.git.GitSCM
+import hudson.plugins.git.extensions.impl.CleanBeforeCheckout
 import hudson.plugins.git.BranchSpec
 import hudson.plugins.git.UserRemoteConfig
-
-// // def createPipelineJob(String jobName, String gitRepositoryUrl) {
-// //     def jenkins = Jenkins.getInstance()
-// //     def job = jenkins.createProject(FreeStyleProject, jobName)
-    
-// //     def git = new GitSCM(gitRepositoryUrl)
-// // // Runs every 15 minutes
-// //     scmTrigger.start(job, true)
-    
-// //     job.setScm(git)
-// //     job.addTrigger(scmTrigger)
-// //     job.save()
-    
-// //     println("Pipeline job '$jobName' created successfully.")
-// // }
-
-// // // Example usage
-// // createPipelineJob("MyPipelineJob", "https://github.com/Yohenba18/CredWiz_Baton.git")
-
-import jenkins.model.Jenkins
-import hudson.model.FreeStyleProject
-import hudson.plugins.git.GitSCM
-import hudson.plugins.git.extensions.impl.CleanBeforeCheckout
-import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition
-import org.jenkinsci.plugins.workflow.job.WorkflowJob
-import org.jenkinsci.plugins.workflow.job.WorkflowRun
 
 def createJenkinsPipeline(projectName, repositoryUrl, branch, sshKeyFile) {
     def jenkins = Jenkins.getInstance()
